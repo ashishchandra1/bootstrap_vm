@@ -15,12 +15,16 @@ if [ "$?" != 0 ]; then
   fi
 
 echo "Updating packages"
-sudo apt-get update
+##sudo apt-get update
 
 # Check for if "vim" and "git" is installed, if not then install them
 
-sudo apt-get install vim
-sudo apt-get install git
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' vim|grep "install ok installed")
+if [ "" == "$PKG_OK" ]; then
+    sudo apt-get install vim
+else
+    echo "VIM is already installed and is the latest version"
+fi
 
 # Configure vim
 echo "Configuring VIM"
